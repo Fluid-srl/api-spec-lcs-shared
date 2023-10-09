@@ -43,9 +43,27 @@ paths:
               schema:
                 $ref: '#/components/schemas/Result'
   /agv/job/{id}:
+    get:
+      summary: 'Get Job by id'
+      description: 'Get Job by id'
+      tags:
+        - AGV
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
     delete:
-      summary: 'Cancel or Delete a Job'
-      description: 'Cancel or Delete a Job'
+      summary: 'Cancel or Delete a Job by id'
+      description: 'Cancel or Delete a Job by id'
       tags:
         - AGV
       parameters:
