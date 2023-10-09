@@ -7,7 +7,7 @@ info:
     name: Fluid Web API
   version: v1.0.0
 paths:
-  /agv/job:
+  /v1/lcs/agv/job:
     put:
       summary: 'Create a new Job'
       description: 'Create a new Job'
@@ -42,7 +42,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Result'
-  /agv/job/{id}:
+  /v1/lcs/agv/job/{id}:
     get:
       summary: 'Get Job by id'
       description: 'Get Job by id'
@@ -79,7 +79,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Result'
-  /amr/status/all:
+  /v1/lcs/amr/status/all:
     get:
       summary: 'All AMR status'
       description: 'All AMR status'
