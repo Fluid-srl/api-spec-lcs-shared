@@ -1,0 +1,189 @@
+openapi: 3.0.1
+info:
+  title: Fluid.WebApi1.WebApi
+  description: >-
+    Fluid secured web API
+  contact:
+    name: Fluid Web API
+  version: v1.0.0
+paths:
+  /agv/job:
+    put:
+      summary: 'Create a new Job'
+      description: 'Create a new Job'
+      tags:
+        - AGV
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Job'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result'
+    post:
+      summary: 'Update a Job'
+      description: 'Update a Job'
+      tags:
+        - AGV
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Job'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result'
+  /agv/job/{id}:
+    delete:
+      summary: 'Cancel or Delete a Job'
+      description: 'Cancel or Delete a Job'
+      tags:
+        - AGV
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result'
+  /amr/status/all:
+    get:
+      summary: 'All AMR status'
+      description: 'All AMR status'
+      tags:
+        - AMR
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Amr'
+components:
+  schemas:
+    Result:
+      type: object
+      properties:
+        result:
+          type: integer
+        description:
+          type: string
+        detail:
+          type: string
+          nullable: true
+    Job:
+      required:
+        - position
+        - actionType
+        - udcType
+      type: object
+      properties:
+        id:
+          type: integer
+        position:
+          type: string
+        actionType:
+          $ref: '#/components/schemas/ActionType'
+        udcType:
+          type: string
+        deliveryTimeMax:
+          type: string
+          format: date-time
+          nullable: true
+        amrId:
+          type: string
+          nullable: true
+        pos:
+          type: string
+          nullable: true
+    ActionType:
+      enum:
+        - POS
+        - LD
+        - UN
+      type: string
+    Amr:
+      type: object
+      properties:
+        id:
+          type: string
+        coordX:
+          type: integer
+        coordY:
+          type: integer
+        angle:
+          type: number
+        networkState:
+          $ref: '#/components/schemas/NetworkState'
+        state:
+          $ref: '#/components/schemas/AmrState'
+        fault:
+          type: array
+          items:
+            $ref: '#/components/schemas/FaultItem'
+        warning:
+          type: array
+          items:
+            $ref: '#/components/schemas/WarningItem'
+        mode:
+          $ref: '#/components/schemas/Mode'
+        lastTag:
+          type: integer
+        nextTag:
+          type: integer
+        inMov:
+          type: integer
+        offset:
+          type: integer
+        job:
+          type: array
+          items:
+            $ref: '#/components/schemas/Job'
+      additionalProperties: false
+    FaultItem:
+      type: object
+      properties:
+        code:
+          type: string
+        description:
+          type: string
+    WarningItem:
+      type: object
+      properties:
+        code:
+          type: string
+        description:
+          type: string
+    AmrState:
+      enum:
+        - START
+        - ALARM
+        - READY
+      type: string
+    NetworkState:
+      enum:
+        - ONLINE
+        - OFFLINE
+      type: string
+    Mode:
+      enum:
+        - AUTOMATIC
+        - NONE
+      type: string
